@@ -13,4 +13,5 @@ dot -Tsvg < combo.gv > combo.svg
 The program downloads the JSON data each time it is run, but there's also a local copy of `values_batchGet.json` just in case.
 
 As an example, here is a graph of cards that combo, starting with Sliver Queen:
+
 ![Sliver Queen Graph](./SliverQueen.svg)
