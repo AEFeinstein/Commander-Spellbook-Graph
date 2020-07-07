@@ -4,17 +4,35 @@ import json
 
 
 def recursiveSearch(comboGraph, subGraph, key, rLevel, minWeight):
+    """ Recursively search through a graph to find a subgraph based on weight and distance.
+    This removes the subgraph from the original graph 
+
+    Keyword arguments:
+    comboGraph -- The graph to search (input)
+    subGraph   -- The resulting graph (output)
+    key        -- The key to search from
+    rlevel     -- The recursive level to limit the size of the subgraph
+    minWeight  -- The minimum necesary weight of an edge to add it to the subgraph
+    """
+
+    # If the vertex is in the graph
     if (key in comboGraph.keys()):
+        # Move it from the main graph to the subgraph
         subGraph[key] = comboGraph.pop(key)
+        # For all edges from that vertex
         for rKey in subGraph[key].keys():
+            # If we haven't recursed too far and the edge is weighty enough
             if(rLevel > -1 and subGraph[key][rKey] >= minWeight):
+                # Keep searching
                 recursiveSearch(comboGraph, subGraph,
                                 rKey, rLevel-1, minWeight)
 
 
 if __name__ == "__main__":
 
-    # Create an empty dictionary
+    # Create an empty graph. Each key in this dict is a vertex. Each vertex is
+    # represented as another dict. Each key in a vertex's dict is another vertex.
+    # The weight of the edge is the value associated with that key
     comboGraph = dict({})
 
     # Load the JSON from the web
@@ -54,12 +72,14 @@ if __name__ == "__main__":
     recursiveSearch(comboGraph, queenGraph, "Sliver Queen", 2, 1)
 
     # Write the graphviz for this graph
-    fout = open("combo.gv", "w")
-    fout.write("digraph {\n")
-    for card1 in queenGraph.keys():
-        for card2 in queenGraph[card1].keys():
-            if (card1 > card2):
-                fout.write("\"" + card1 + "\" -> \"" + card2 +
-                           "\" [dir=\"both\" label = \"" + str(queenGraph[card1][card2]) + "\"]\n")
-    fout.write("}\n")
-    fout.close()
+    with open("combo.gv", "w") as fout:
+        fout.write("digraph {\n")
+        # For each vertex
+        for card1 in queenGraph.keys():
+            # For each edge
+            for card2 in queenGraph[card1].keys():
+                # Each edge is bidirectional, so only draw it once with dir="both"
+                if (card1 > card2):
+                    fout.write("\"" + card1 + "\" -> \"" + card2 +
+                               "\" [dir=\"both\" label = \"" + str(queenGraph[card1][card2]) + "\"]\n")
+        fout.write("}\n")
