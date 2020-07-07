@@ -1,6 +1,6 @@
 # Commander-Spellbook-Graph
 
-This project takes the data from (Commander Spellbook)[https://commanderspellbook.com/] and graph it to show relationships between cards. If a card exists in a combo with another card, and edge is created between the cards. The weight of that edge is the number of combos both of those cards exist in.
+This project takes the data from [Commander Spellbook](https://commanderspellbook.com/) and graph it to show relationships between cards. If a card exists in a combo with another card, and edge is created between the cards. The weight of that edge is the number of combos both of those cards exist in.
 
 This project requires [Python3](https://www.python.org/downloads/) and [GraphViz](https://graphviz.org/download/).
 
